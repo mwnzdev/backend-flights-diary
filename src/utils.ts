@@ -27,13 +27,13 @@ const isString = (text: unknown): text is string => {
 };
 
 const parseDateOfBirth = (dateOfBirth: unknown): string => {
-	if (!dateOfBirth || !isString(dateOfBirth) || isDate(dateOfBirth)) {
+	if (!dateOfBirth || !isString(dateOfBirth) || !isDate(dateOfBirth)) {
 		throw new Error('Incorrect or missing date: ' + dateOfBirth);
 	}
 	return dateOfBirth;
 };
 
-const isDate = (date: string) => {
+const isDate = (date: string): boolean => {
 	return Boolean(Date.parse(date));
 };
 
