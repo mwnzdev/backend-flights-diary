@@ -3,6 +3,7 @@ import { v1 as uuid } from 'uuid';
 
 
 import { NonSensitivePatients, Patient, NewPatient } from '../types';
+import patientsData from '../../data/patients';
 
 // excluding ssn key 
 const getPatients = (): NonSensitivePatients[] => {
@@ -24,7 +25,11 @@ const addPatient = (newPatientEntry: NewPatient): Patient => {
 
 	data.push(newPatient);
 	return newPatient;
+};
 
+const getById = (id: string): Patient | undefined => {
+	const foundPatient = patientsData.find(p => p.id === id);
+	return foundPatient;
 };
 
 
@@ -32,4 +37,5 @@ const addPatient = (newPatientEntry: NewPatient): Patient => {
 export default {
 	getPatients,
 	addPatient,
+	getById,
 };
