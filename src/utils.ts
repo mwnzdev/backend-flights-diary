@@ -4,22 +4,22 @@ type Fields = { name: unknown, dateOfBirth: unknown, ssn: unknown, gender: unkno
 
 export const toNewPatient = ({ name, dateOfBirth, ssn, gender, occupation }: Fields): NewPatient => {
 	const newEntry: NewPatient = {
-		name: parseName(name),
+		name: parseField(name, 'name'),
 		dateOfBirth: parseDateOfBirth(dateOfBirth),
-		ssn: parseSsn(ssn),
+		ssn: parseField(ssn, 'ssn'),
 		gender: parseGender(gender),
-		occupation: parseOccupation(occupation)
+		occupation: parseField(occupation, 'occupation')
 	};
 	return newEntry;
 };
 
-
-const parseName = (name: unknown): string => {
-	if (!name || !isString(name)) {
-		throw new Error('Incorrect or missing name: ' + name);
+const parseField = (value: unknown, field: string): string => {
+	if (!value || !isString(value)) {
+		throw new Error('Incorrect or missing ' + field);
 	}
-	return name;
+	return value;
 };
+
 
 const isString = (text: unknown): text is string => {
 	return typeof text === 'string' || text instanceof String;
@@ -37,15 +37,8 @@ const parseDateOfBirth = (dateOfBirth: unknown): string => {
 };
 
 
-const parseSsn = (ssn: unknown): string => {
-	if (!ssn || !isString(ssn)) {
-		throw new Error('Incorrect or missing ssn: ' + ssn);
-	}
-	return ssn;
-};
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 // 'includes' check would not compile with 'string' param
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const isGender = (param: any): param is Gender => {
 	// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 	return Object.values(Gender).includes(param);
@@ -58,11 +51,5 @@ const parseGender = (gender: unknown): Gender => {
 	return gender;
 };
 
-const parseOccupation = (occupation: unknown): string => {
-	if (!occupation || !isString(occupation)) {
-		throw new Error('Incorrect or missing occupation: ' + occupation);
-	}
-	return occupation;
-};
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
