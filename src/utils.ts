@@ -1,12 +1,14 @@
-import { NewPatient } from "./types";
+import { NewPatient, Gender } from "./types";
 
-const toNewPatient = (object: unknown): NewPatient => {
+type Fields = { name: unknown, dateOfBirth: unknown, ssn: unknown, gender: unknown, occupation: unknown };
+
+const toNewPatient = ({ name, dateOfBirth, ssn, gender, occupation }: Fields): NewPatient => {
 	const newEntry: NewPatient = {
-		name: parseName(object.name),
-		dateOfBirth: parseDateOfBirth(object.dateOfBirth),
-		ssn: parseSsn(object.ssn),
-		gender: parseGender(object.gender),
-		occupation: parseOccupation(object.occupation)
+		name: parseName(name),
+		dateOfBirth: parseDateOfBirth(dateOfBirth),
+		ssn: parseSsn(ssn),
+		gender: parseGender(gender),
+		occupation: parseOccupation(occupation)
 	};
 	return newEntry;
 };
@@ -42,3 +44,24 @@ const parseSsn = (ssn: unknown): string => {
 	return ssn;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const isGender = (param: any): param is Gender => {
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+	return Object.values(Gender).includes(param);
+};
+
+const parseGender = (gender: unknown): Gender => {
+	if (!gender || !isGender(gender)) {
+		throw new Error('Incorrect or missing gender: ' + gender);
+	}
+	return gender;
+};
+
+const parseOccupation = (occupation: unknown): string => {
+	if (!occupation || !isString(occupation)) {
+		throw new Error('Incorrect or missing occupation: ' + occupation);
+	}
+	return occupation;
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
