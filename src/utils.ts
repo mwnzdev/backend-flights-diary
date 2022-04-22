@@ -2,7 +2,7 @@ import { NewPatient, Gender } from "./types";
 
 type Fields = { name: unknown, dateOfBirth: unknown, ssn: unknown, gender: unknown, occupation: unknown };
 
-const toNewPatient = ({ name, dateOfBirth, ssn, gender, occupation }: Fields): NewPatient => {
+export const toNewPatient = ({ name, dateOfBirth, ssn, gender, occupation }: Fields): NewPatient => {
 	const newEntry: NewPatient = {
 		name: parseName(name),
 		dateOfBirth: parseDateOfBirth(dateOfBirth),
@@ -13,7 +13,6 @@ const toNewPatient = ({ name, dateOfBirth, ssn, gender, occupation }: Fields): N
 	return newEntry;
 };
 
-export default toNewPatient;
 
 const parseName = (name: unknown): string => {
 	if (!name || !isString(name)) {
@@ -26,6 +25,10 @@ const isString = (text: unknown): text is string => {
 	return typeof text === 'string' || text instanceof String;
 };
 
+const isDate = (date: string): boolean => {
+	return Boolean(Date.parse(date));
+};
+
 const parseDateOfBirth = (dateOfBirth: unknown): string => {
 	if (!dateOfBirth || !isString(dateOfBirth) || !isDate(dateOfBirth)) {
 		throw new Error('Incorrect or missing date: ' + dateOfBirth);
@@ -33,9 +36,6 @@ const parseDateOfBirth = (dateOfBirth: unknown): string => {
 	return dateOfBirth;
 };
 
-const isDate = (date: string): boolean => {
-	return Boolean(Date.parse(date));
-};
 
 const parseSsn = (ssn: unknown): string => {
 	if (!ssn || !isString(ssn)) {
@@ -45,6 +45,7 @@ const parseSsn = (ssn: unknown): string => {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
+// 'includes' check would not compile with 'string' param
 const isGender = (param: any): param is Gender => {
 	// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 	return Object.values(Gender).includes(param);

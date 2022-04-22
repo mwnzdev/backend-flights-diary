@@ -1,7 +1,7 @@
 import express from 'express';
+import cors from 'cors';
 import diagnosisRouter from './routes/diagnoses';
 import patientRouter from './routes/patient';
-import cors from 'cors';
 
 
 const app = express();

@@ -1,13 +1,10 @@
-import data from '../../data/patients';
-import { v1 as uuid } from 'uuid';
-
-
 import { NonSensitivePatients, Patient, NewPatient } from '../types';
 import patientsData from '../../data/patients';
+import { v1 as uuid } from 'uuid';
 
 // excluding ssn key 
 const getPatients = (): NonSensitivePatients[] => {
-	return data.map(({ id, name, dateOfBirth, gender, occupation }) => ({
+	return patientsData.map(({ id, name, dateOfBirth, gender, occupation }) => ({
 		id,
 		name,
 		dateOfBirth,
@@ -23,7 +20,7 @@ const addPatient = (newPatientEntry: NewPatient): Patient => {
 		...newPatientEntry
 	};
 
-	data.push(newPatient);
+	patientsData.push(newPatient);
 	return newPatient;
 };
 
